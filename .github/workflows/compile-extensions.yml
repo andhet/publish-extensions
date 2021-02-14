@@ -1,4 +1,4 @@
-name: Publish extensions to open-vsx.org
+name: Compile extensions
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ on:
     - cron:  '3 3 * * *'
 
 jobs:
-  publish_extensions:
+  compile_extensions:
     name: node publish-extensions
     runs-on: ubuntu-latest
     steps:
