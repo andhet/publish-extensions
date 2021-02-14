@@ -19,7 +19,4 @@ jobs:
     - uses: actions/setup-python@v2
       with:
         python-version: '3.8'
-    - run: npm install
-    - run: npm install --global yarn
-    - run: mount -o remount,exec /tmp
-    - run: npm run compile
+    - run: sudo mount -o remount,exec /tmp
