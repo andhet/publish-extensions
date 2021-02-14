@@ -23,5 +23,5 @@ jobs:
     - run: df /tmp
     - run: df
     - run: lsblk
-    - run: systemctl cat tmp.mount
+    - run: findmnt -l
     - run: sudo mount -o remount,exec /tmp
