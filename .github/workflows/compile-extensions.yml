@@ -1,0 +1,25 @@
+name: Publish extensions to open-vsx.org
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    # Run at 03:03 UTC every day.
+    - cron:  '3 3 * * *'
+
+jobs:
+  publish_extensions:
+    name: node publish-extensions
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+    - run: npm install
+    - run: npm install --global yarn
+    - run: mount -o remount,exec /tmp
+    - run: npm run compile
