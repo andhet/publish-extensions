@@ -24,4 +24,5 @@ jobs:
     - run: df
     - run: lsblk
     - run: findmnt -l
+    - run: echo $TMPDIR 
     - run: sudo mount -o remount,exec /tmp
