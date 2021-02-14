@@ -23,4 +23,5 @@ jobs:
     - run: df /tmp
     - run: df
     - run: lsblk
+    - run: systemctl cat tmp.mount
     - run: sudo mount -o remount,exec /tmp
