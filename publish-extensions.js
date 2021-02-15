@@ -71,7 +71,7 @@ const downloadDir = '/home/runner/download';
         }
         if (semver.eq(ovsxVersion, extension.version)) {
           console.log(`[SKIPPED] Requested version ${extension.version} is already published on Open VSX`);
-          continue;
+          //continue;
         }
       }
 
@@ -79,7 +79,7 @@ const downloadDir = '/home/runner/download';
 
       // Create a public Open VSX namespace if needed.
       try {
-        await ovsx.createNamespace({ name: namespace });
+       // await ovsx.createNamespace({ name: namespace });
       } catch (error) {
         console.log(`Creating Open VSX namespace failed -- assuming that it already exists`);
         console.log(error);
