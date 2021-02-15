@@ -104,7 +104,7 @@ const downloadDir = '/home/runner/download'
 
         // Download the extension package, e.g. from a GitHub release
         console.log(`Downloading ${extension.download}`);
-        await download(extension.download, '${downloadDir}, { filename: 'extension.vsix' });
+        await download(extension.download, '${downloadDir}', { filename: 'extension.vsix' });
 
         // Publish the extension.
         /** @type {import('ovsx').PublishOptions} */
