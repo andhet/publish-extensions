@@ -104,25 +104,25 @@ const downloadDir = '/home/runner/download';
 
         // Download the extension package, e.g. from a GitHub release
         console.log(`Downloading ${extension.download}`);
-        await download(extension.download, '${downloadDir}', { filename: 'extension.vsix' });
+        await download(extension.download, ${downloadDir}, { filename: 'extension.vsix' });
 
         // Publish the extension.
         /** @type {import('ovsx').PublishOptions} */
-        const options = { extensionFile: '${downloadDir}/extension.vsix' };
+        const options = { extensionFile: path.join(${repoDir}, 'extension.vsix') };
         await ovsx.publish(options);
 
       } else {
         // Clone and set up the repository.
         await exec(`git clone --recurse-submodules ${extension.repository} ${repoDir}`);
         if (extension.checkout) {
-            await exec(`git checkout ${extension.checkout}`, { cwd: '${repoDir}' });
+            await exec(`git checkout ${extension.checkout}`, { cwd: ${repoDir} });
         }
         let yarn = await new Promise(resolve => {
-            fs.access(path.join('${repoDir}', 'yarn.lock'), error => resolve(!error));
+            fs.access(path.join(${repoDir}, 'yarn.lock'), error => resolve(!error));
         });
-        await exec(`${yarn ? 'yarn' : 'npm'} install`, { cwd: '${repoDir}' });
+        await exec(`${yarn ? 'yarn' : 'npm'} install`, { cwd: ${repoDir} });
         if (extension.prepublish) {
-            await exec(extension.prepublish, { cwd: '${repoDir}' })
+            await exec(extension.prepublish, { cwd: ${repoDir} })
         }
 
         // Publish the extension.
@@ -132,9 +132,9 @@ const downloadDir = '/home/runner/download';
           if (extension.location) {
             console.warn('[WARN] Ignoring `location` property because `extensionFile` was given.')
           }
-          options = {extensionFile: path.join('${repoDir}', extension.extensionFile)};
+          options = {extensionFile: path.join(${repoDir}, extension.extensionFile)};
         } else {
-          options = {packagePath: path.join('${repoDir}', extension.location || '.')};
+          options = {packagePath: path.join(${repoDir}, extension.location || '.')};
         }
         if (yarn) {
             options.yarn = true;
