@@ -20,6 +20,7 @@ jobs:
       with:
         python-version: '3.8'
     - run: mount
+    - run: ls /home  
     - run: df /tmp
     - run: df
     - run: lsblk
