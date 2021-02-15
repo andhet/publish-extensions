@@ -17,6 +17,8 @@ const semver = require('semver');
 const download = require('download');
 const exec = require('./lib/exec');
 const readFile = util.promisify(fs.readFile);
+const repoDir = '/home/runner/repository'
+const downloadDir = '/home/runner/download'
 
 (async () => {
   /**
@@ -102,25 +104,25 @@ const readFile = util.promisify(fs.readFile);
 
         // Download the extension package, e.g. from a GitHub release
         console.log(`Downloading ${extension.download}`);
-        await download(extension.download, '/tmp/download', { filename: 'extension.vsix' });
+        await download(extension.download, '${downloadDir}, { filename: 'extension.vsix' });
 
         // Publish the extension.
         /** @type {import('ovsx').PublishOptions} */
-        const options = { extensionFile: '/tmp/download/extension.vsix' };
+        const options = { extensionFile: '${downloadDir}/extension.vsix' };
         await ovsx.publish(options);
 
       } else {
         // Clone and set up the repository.
-        await exec(`git clone --recurse-submodules ${extension.repository} /tmp/repository`);
+        await exec(`git clone --recurse-submodules ${extension.repository} ${repoDir}`);
         if (extension.checkout) {
-            await exec(`git checkout ${extension.checkout}`, { cwd: '/tmp/repository' });
+            await exec(`git checkout ${extension.checkout}`, { cwd: '${repoDir}' });
         }
         let yarn = await new Promise(resolve => {
-            fs.access(path.join('/tmp/repository', 'yarn.lock'), error => resolve(!error));
+            fs.access(path.join('${repoDir}', 'yarn.lock'), error => resolve(!error));
         });
-        await exec(`${yarn ? 'yarn' : 'npm'} install`, { cwd: '/tmp/repository' });
+        await exec(`${yarn ? 'yarn' : 'npm'} install`, { cwd: '${repoDir}' });
         if (extension.prepublish) {
-            await exec(extension.prepublish, { cwd: '/tmp/repository' })
+            await exec(extension.prepublish, { cwd: '${repoDir}' })
         }
 
         // Publish the extension.
@@ -130,9 +132,9 @@ const readFile = util.promisify(fs.readFile);
           if (extension.location) {
             console.warn('[WARN] Ignoring `location` property because `extensionFile` was given.')
           }
-          options = {extensionFile: path.join('/tmp/repository', extension.extensionFile)};
+          options = {extensionFile: path.join('${repoDir}', extension.extensionFile)};
         } else {
-          options = {packagePath: path.join('/tmp/repository', extension.location || '.')};
+          options = {packagePath: path.join('${repoDir}', extension.location || '.')};
         }
         if (yarn) {
             options.yarn = true;
@@ -146,7 +148,7 @@ const readFile = util.promisify(fs.readFile);
       console.error(error);
       process.exitCode = -1;
     } finally {
-      await exec('rm -rf /tmp/repository /tmp/download');
+      await exec('rm -rf ${repoDir} ${downloadDir}');
     }
   }
 })();
