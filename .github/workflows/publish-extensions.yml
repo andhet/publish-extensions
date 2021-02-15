@@ -1,6 +1,7 @@
 name: Publish extensions to open-vsx.org
 
 on:
+  workflow_dispatch:
   schedule:
     # Run at 03:03 UTC every day.
     - cron:  '3 3 * * *'
