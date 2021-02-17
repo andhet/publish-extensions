@@ -1,0 +1,21 @@
+name: build_test extensions
+
+on:
+  workflow_dispatch:
+    
+
+jobs:
+  upgrade_extensions:
+    name: node build_test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+    - run: npm install
+    - run: npm install --global yarn
+    - run: node build_test
