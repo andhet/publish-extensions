@@ -27,23 +27,23 @@ const extensions = ['https://github.com/qjebbs/vscode-plantuml.git','https://git
 
 (async () => 
 {  
-  try {
-    for (const extension of extensions) 
-    {
+  for (const extension of extensions) 
+  {
+    try {
       await exec(`git clone --recurse-submodules ${extension} ${repoDir}`);
       
       await exec('npm install', { cwd: repoDir });
       var out = await exec('npm -ddd run compile', { cwd: repoDir });
       console.log(out.stdout);
       console.log(out.stderr);  
+    } 
+    catch(err)
+    {
+      console.error(`error: ${err}`);
+    } 
+    finally 
+    {
+      exec (`rm -rfv ${repoDir} ${downloadDir}`);
     }
-  } 
-  catch(err)
-  {
-    console.error(`error: ${err}`);
-  } 
-  finally 
-  {
-    exec (`rm -rfv ${repoDir} ${downloadDir}`);
   }
 })();
