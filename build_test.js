@@ -21,25 +21,30 @@ const readFile = util.promisify(fs.readFile);
 //const downloadDir = '/home/runner/download';
 const repoDir = '/tmp/repository';
 const downloadDir = '/tmp/download';
-const extensionRepository = 'https://github.com/qjebbs/vscode-plantuml.git';
 
-(async () => {
 
-  try {
-  await exec(`git clone --recurse-submodules ${extensionRepository} ${repoDir}`);
+const extensions = ['https://github.com/qjebbs/vscode-plantuml.git','https://github.com/fabiospampinato/vscode-highlight'] 
 
-  await exec('npm install', { cwd: repoDir });
-  var out = await exec('npm -ddd run compile', { cwd: repoDir });
-  // , (stdout, stderr) => {
-  //   console.error(`exec error: ${stderr}`);
-  //   console.log(`stdout: ${stdout}`);
-  // });
-  console.log(out.stdout);
-  console.log(out.stderr);
-
-}catch(err){
-  console.error(`error: ${err}`);
-}finally {
-  exec (`rm -rfv ${repoDir} ${downloadDir}`);
-}
+(async () => 
+{
+  try 
+  {
+    for (const extension of extensions) 
+    {
+      await exec(`git clone --recurse-submodules ${extension} ${repoDir}`);
+      
+      await exec('npm install', { cwd: repoDir });
+      var out = await exec('npm -ddd run compile', { cwd: repoDir });
+      console.log(out.stdout);
+      console.log(out.stderr);  
+    }
+  } 
+  catch(err)
+  {
+    console.error(`error: ${err}`);
+  } 
+  finally 
+  {
+    exec (`rm -rfv ${repoDir} ${downloadDir}`);
+  }
 })();
