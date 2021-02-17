@@ -17,8 +17,10 @@ const semver = require('semver');
 const download = require('download');
 const exec = require('./lib/exec');
 const readFile = util.promisify(fs.readFile);
-const repoDir = '/home/runner/repository';
-const downloadDir = '/home/runner/download';
+//const repoDir = '/home/runner/repository';
+//const downloadDir = '/home/runner/download';
+const repoDir = '/tmp/repository';
+const downloadDir = '/tmp/download';
 const extensionRepository = 'https://github.com/qjebbs/vscode-plantuml.git';
 
 (async () => {
