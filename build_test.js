@@ -23,12 +23,11 @@ const repoDir = '/tmp/repository';
 const downloadDir = '/tmp/download';
 
 
-const extensions = ['https://github.com/qjebbs/vscode-plantuml.git','https://github.com/fabiospampinato/vscode-highlight'] 
+const extensions = ['https://github.com/qjebbs/vscode-plantuml.git','https://github.com/fabiospampinato/vscode-highlight'];
 
 (async () => 
-{
-  try 
-  {
+{  
+  try {
     for (const extension of extensions) 
     {
       await exec(`git clone --recurse-submodules ${extension} ${repoDir}`);
