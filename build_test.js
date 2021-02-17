@@ -29,7 +29,8 @@ const extensions = ['https://github.com/qjebbs/vscode-plantuml.git','https://git
 {  
   for (const extension of extensions) 
   {
-    try {
+    try 
+    {
       await exec(`git clone --recurse-submodules ${extension} ${repoDir}`);
       
       await exec('npm install', { cwd: repoDir });
@@ -43,7 +44,7 @@ const extensions = ['https://github.com/qjebbs/vscode-plantuml.git','https://git
     } 
     finally 
     {
-      exec (`rm -rfv ${repoDir} ${downloadDir}`);
+      await exec (`rm -rf ${repoDir} ${downloadDir}`);
     }
   }
 })();
