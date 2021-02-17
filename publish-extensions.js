@@ -148,7 +148,7 @@ const downloadDir = '/home/runner/download';
       console.error(error);
       process.exitCode = -1;
     } finally {
-      await exec('rm -rf ${repoDir} ${downloadDir}');
+      await exec(`rm -rf ${repoDir} ${downloadDir}`);
     }
   }
 })();
