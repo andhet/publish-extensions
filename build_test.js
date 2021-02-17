@@ -24,9 +24,22 @@ const downloadDir = '/tmp/download';
 const extensionRepository = 'https://github.com/qjebbs/vscode-plantuml.git';
 
 (async () => {
+
+  try {
   await exec(`git clone --recurse-submodules ${extensionRepository} ${repoDir}`);
 
   await exec('npm install', { cwd: repoDir });
-  await exec('npm run compile', { cwd: repoDir });
- 
+  var out = await exec('npm -ddd run compile', { cwd: repoDir });
+  // , (stdout, stderr) => {
+  //   console.error(`exec error: ${stderr}`);
+  //   console.log(`stdout: ${stdout}`);
+  // });
+  console.log(out.stdout);
+  console.log(out.stderr);
+
+}catch(err){
+  console.error(`error: ${err}`);
+}finally {
+  exec (`rm -rfv ${repoDir} ${downloadDir}`);
+}
 })();
